@@ -1,4 +1,4 @@
-#!/bin/env node
+#!/usr/bin/env node
 const { URL }  = require('url');
 const Easymidi = require('easymidi');
 const Osc      = require('osc');
