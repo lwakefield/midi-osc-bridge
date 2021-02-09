@@ -47,15 +47,6 @@ osc.open();
 
 osc.send({ address: '/hello', args: [{type:'s',value:'world'}] });
 
-const sleep = (ms) => new Promise(res => setTimeout(res, ms));
-
-(async () => {
-  while (true) {
-    midi.input.emit('clock');
-    await sleep((60000 / 60) / 24)
-  }
-})();
-
 process.on('exit', () => {
   midi.input.close();
   midi.output.close();
