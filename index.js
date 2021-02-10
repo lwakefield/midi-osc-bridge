@@ -28,20 +28,20 @@ const osc = new Osc.UDPPort({
 osc.on('message', function (msg, time, info) {
   if (msg.address === '/noteon')  midi.output.send('noteon', {
     note: msg.args[0].value,
-    velocity: msg.args[1].value || 127,
-    channel: msg.args[2].value || 0
+    velocity: msg.args[1] && msg.args[1].value || 127,
+    channel: msg.args[2] && msg.args[2].value || 0
   })
 
   if (msg.address === '/noteoff')  midi.output.send('noteoff', {
     note: msg.args[0].value,
-    velocity: msg.args[1].value || 0,
-    channel: msg.args[2].value || 0
+    velocity: msg.args[1] && msg.args[1].value || 0,
+    channel: msg.args[2] && msg.args[2].value || 0
   })
 });
-midi.input.on('clock',    osc.send.bind(osc, { address: '/clock'    }));
-midi.input.on('start',    osc.send.bind(osc, { address: '/start'    }));
-midi.input.on('continue', osc.send.bind(osc, { address: '/continue' }));
-midi.input.on('stop',     osc.send.bind(osc, { address: '/stop'     }));
+midi.input.on('clock',    () => { osc.send({ address: '/clock'    }) });
+midi.input.on('start',    () => { osc.send({ address: '/start'    }) });
+midi.input.on('continue', () => { osc.send({ address: '/continue' }) });
+midi.input.on('stop',     () => { osc.send({ address: '/stop'     }) });
 
 osc.open();
 
